@@ -12,17 +12,17 @@ import com.cc.cxfdemo.domain.User;
 import com.cc.cxfdemo.endpoint.UserService;
 
 
-@Service("userService")
 public class UserServiceImpl implements UserService {
 
 	private UserDao userDao;
 	
 
 	public List<User> getAllUsers() {
+		
 		return userDao.getAllUsers();
 	}
 
-	public User getUserById(String id) {
+	public User getUserById(String id){
 		return userDao.getUserById(id);
 	}
 
@@ -43,6 +43,12 @@ public class UserServiceImpl implements UserService {
 
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
+	}
+
+	@Override
+	public Response upload() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

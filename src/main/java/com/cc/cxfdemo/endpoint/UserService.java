@@ -27,11 +27,13 @@ public interface UserService {
 	@GET
     @Path("/user/{id}")
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public User getUserById(@PathParam("id") String id);
+	public User getUserById(@PathParam("id") String id) throws Exception;
 	
 	@POST
 	@Path("/user/add")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response addUser(User user);
+	
+	public Response upload();
     
 }

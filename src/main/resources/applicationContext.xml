@@ -38,13 +38,13 @@
     </jaxrs:serviceBeans>
     
     <!-- 输入日志拦截器 -->  
-    <jaxrs:inInterceptors>  
+    <!-- <jaxrs:inInterceptors>  
          <ref bean="inMessageInterceptor"/>  
-    </jaxrs:inInterceptors>  
+    </jaxrs:inInterceptors>   -->
     <!-- 输出日志拦截器 -->  
-    <jaxrs:outInterceptors>  
+    <!-- <jaxrs:outInterceptors>  
        <ref bean="outMessageInterceptor"/>  
-    </jaxrs:outInterceptors>
+    </jaxrs:outInterceptors> -->
     
     <jaxrs:extensionMappings>  
         <entry key="json" value="application/json" />  
@@ -54,8 +54,12 @@
     <!-- to return json, nedd to add this -->
     <jaxrs:providers>
         <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+        <bean class="com.cc.cxfdemo.exception.mapper.InvokeFaultExceptionMapper"/> 
     </jaxrs:providers>
     
+    <jaxrs:features>
+    	<bean class="com.cc.cxfdemo.feature.HelloWorldFeature"></bean>  
+    </jaxrs:features>
     
 </jaxrs:server>
 	
@@ -65,7 +69,27 @@
 	
     <bean id="inMessageInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor" />  
     <bean id="outMessageInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/> 
+    <bean id="helloInInterceptor" class="com.cc.cxfdemo.interceptor.HelloInInterceptor"/> 
     
     <bean id="userDao" class="com.cc.cxfdemo.dao.UserDao"/>
+    
+    <!-- <aop:aspectj-autoproxy/>  -->
+    
+    <!-- <aop:config>  
+        <aop:aspect id="TestAspect" ref="cxfAopBean">  
+            配置com.spring.service包下所有类或接口的所有方法  
+            <aop:pointcut id="businessService"  
+                expression="execution(* com.cc.cxfdemo.endpoint.impl.*.*(..))" />  
+            <aop:before pointcut-ref="businessService" method="doBefore"/>  
+            <aop:after pointcut-ref="businessService" method="doAfter"/>  
+            <aop:around pointcut-ref="businessService" method="doAround"/>  
+            <aop:after-throwing pointcut-ref="businessService" method="doAfterThrowing" throwing="ex"/>  
+        </aop:aspect>  
+    </aop:config>   -->
+    
+    <aop:aspectj-autoproxy />
+      
+    <bean id="cxfAopBean" class="com.cc.cxfdemo.aop.CxfAop" /> 
+    
 	
 </beans>

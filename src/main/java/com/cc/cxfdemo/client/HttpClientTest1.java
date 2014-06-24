@@ -23,7 +23,7 @@ import org.codehaus.jackson.map.util.JSONPObject;
 
 import com.cc.cxfdemo.domain.User;
 
-public class Client1 {
+public class HttpClientTest1 {
 	/** 本地测试 */
 	private final static String HTTP_URL = "http://localhost:8080/cxfdemo/rest/userservice/";
 
@@ -138,13 +138,13 @@ public class Client1 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		Client1 client1 = new Client1();
+		HttpClientTest1 client1 = new HttpClientTest1();
 		System.out.println("----");
-		// Map<String , String> map = new HashMap<String, String>();
-		// map.put("id", "001");
-		//System.out.println(client1.doGet("users", null));
+		Map<String , String> map = new HashMap<String, String>();
+		map.put("id", "001");
+		System.out.println(client1.doGet("users", null));
 
-		User user = new User("005", "dasd", "aaa", 29, new Date(),
+		/*User user = new User("005", "dasd", "aaa", 29, new Date(),
 				"asdasd@qq.com");
 		ObjectMapper objectMapper = new ObjectMapper();
 		String userStr = objectMapper.writeValueAsString(user);
@@ -153,7 +153,7 @@ public class Client1 {
 		System.out.println("param:" + userStr);
 		String aa = "{'user':{'id':'005','name':'dasd','password':'aaa','age':29,'birthday':'1400379680911',email':'asdasd@qq.com'}}";
 		map.put("user", userStr);
-		System.out.println(client1.doPost("user/add", null,userStr));
+		System.out.println(client1.doPost("user/add", null,userStr));*/
 		
 		/*Map<String, String> map = new HashMap<String, String>();
 		map.put("id", "005");
