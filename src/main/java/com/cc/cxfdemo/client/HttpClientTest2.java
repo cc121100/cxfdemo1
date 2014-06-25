@@ -175,7 +175,7 @@ public class HttpClientTest2 {
 		
 		AndFilter andFilter = new AndFilter (
 				new TagNameFilter("a"),
-				new HasParentFilter(new HasAttributeFilter("class", " "))
+				new HasParentFilter(new HasAttributeFilter("class", "td-title faceblue"))
 				
 		);   
 		

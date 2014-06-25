@@ -1,0 +1,1 @@
+page1id|,|tianyafans|,|http://bbs.tianya.cn/list-fans-1.shtml|,|TagNameFilter|,|n|,|[{id:'111';page_id:'page1id';filter:'TagNameFilter';param1:'a';param2:;refNode:;}]

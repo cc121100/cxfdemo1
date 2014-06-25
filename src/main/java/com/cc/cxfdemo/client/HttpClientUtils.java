@@ -10,6 +10,7 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.io.FileUtils;
 
 public class HttpClientUtils {
 	
@@ -17,6 +18,8 @@ public class HttpClientUtils {
 	private final static int CONN_TIMEOUT = 5000;
 	/** 请求超时时间 */
 	private final static int REQUEST_TIMEOUT = 5000;
+	
+	
 	
 	public static InputStream doGet(String url,Map<String, String> map){
 		InputStream inputStream = null;
@@ -51,6 +54,10 @@ public class HttpClientUtils {
 			getMethod.releaseConnection();
 		}
 		return inputStream;
+	}
+	
+	public static void main(String[] args) {
+		
 	}
 
 }

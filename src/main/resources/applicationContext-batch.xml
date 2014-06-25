@@ -1,0 +1,94 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.1.xsd  
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd  
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+	http://www.springframework.org/schema/batch 
+	http://www.springframework.org/schema/batch/spring-batch-3.0.xsd ">
+
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+
+	<batch:job id="testJob">
+		<batch:step id="testStep1" >
+			<batch:tasklet transaction-manager="transactionManager" >
+				<batch:chunk reader="testItemReader" processor="testItemProcessor" writer="testItemWriter"
+					commit-interval="1">
+				</batch:chunk>
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+	<bean id="testItemReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="strict" value="false"/>
+		<property name="resource" value="file:d:/test1" />
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer" ref="lineTokenizer" />
+				<property name="fieldSetMapper">
+					<bean
+						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+						<property name="prototypeBeanName" value="sourcePage"></property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- lineTokenizer -->
+	<bean id="lineTokenizer"
+		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+		<property name="delimiter" value="|,|" />
+		<property name="names">
+			<list>
+				<value>ID</value>
+				<value>name</value>
+				<value>url</value>
+				<value>filterType</value>
+				<value>isCombooFilter</value>
+				<value>sourcePageFilterString</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sourcePage" class="batch.domain.SourcePage" />
+	<bean id="sourcePageFilter" class="batch.domain.SourcePageFilter" />
+	<bean id="testItemProcessor" class="batch.domain.TestItemProcessor" />
+	
+	<bean id="testItemWriter"
+        class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+        
+        <property name="resource" value="file:d:/testoutput"/>
+        <property name="lineAggregator">
+            <bean
+                class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+                <property name="delimiter" value="|,|"></property>
+                <property name="fieldExtractor">
+                    <bean
+                        class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+                        <property name="names" value="id,name,url,filterType,isCombooFilter,sourcePageFilterString"></property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>
